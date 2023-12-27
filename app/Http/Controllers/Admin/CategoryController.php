@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-use App\Http\Request\Admin\CategoryRequest;
+use App\Http\Requests\Admin\CategoryRequest;
 
 use DataTables;
 
@@ -74,7 +74,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.category.create')
+        return view('pages.admin.category.create');
     }
 
     /**
@@ -104,7 +104,11 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $item = Category::findOrFail($id);
+
+        return view('pages.admin.category.edit', [
+            'item' => $item
+    ]);
     }
 
     /**
@@ -112,7 +116,15 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, string $id)
     {
-        //
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->name);
+        $data['photo'] = $request->file('photo')->store('assets/category','public');
+
+        $item = Category::findOrFail($id);
+        $item->update($data);
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -120,6 +132,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $item = Category::findOrFail($id);
+
+        $item->delete();
+
+        return redirect()->route('category.index');
     }
 }
