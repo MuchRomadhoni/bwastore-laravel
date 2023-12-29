@@ -12,7 +12,7 @@
     @stack('prepend-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="/style/main.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/v/bs4/dt-1.13.8/datatables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" rel="stylesheet">
     @stack('addon-style')
 </head>
 
@@ -27,7 +27,8 @@
                 <div class="list-group list-group-flush">
                     <a href="{{ route('admin-dashboard') }}"
                         class="list-group-item list-group-item-action">Dashboard</a>
-                    <a href="" class="list-group-item list-group-item-action">Products</a>
+                    <a href="{{ route('product.index') }}"
+                        class="list-group-item list-group-item-action {{ request()->is('admin/product*') ? 'active' : '' }}">Products</a>
                     <a href="{{ route('category.index') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/category*') ? 'active' : '' }}">Categories</a>
                     <a href="" class="list-group-item list-group-item-action">Transactions</a>
@@ -54,8 +55,8 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto d-none d-lg-flex">
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="#" id="navbarDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
                                     <img src="/images/icon-user.png" alt=""
                                         class="rounded-circle mr-2 profile-picture" />
                                     Hi, Angga
