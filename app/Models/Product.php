@@ -19,7 +19,7 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function galleries(): HasMany
+    public function galleries()
     {
         return $this->hasMany(ProductGallery::class, 'products_id', 'id');
     }
@@ -29,7 +29,7 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user(): HasOne
+    public function user()
     {
         return $this->hasOne(User::class, 'id','users_id');
     }
@@ -39,7 +39,7 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category(): BelongsTo
+    public function category()
     {
         return $this->belongsTo(Category::class, 'categories_id', 'id');
     }
