@@ -37,10 +37,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalPrice = 0;
+                                @endphp
                                 @foreach ($carts as $cart)
-                                    @php
-                                        $totalPrice = 0;
-                                    @endphp
                                     <tr>
                                         <td style="width: 25%;">
                                             <img src="{{ Storage::url($cart->product->galleries->first()->photos) }}"
@@ -80,8 +80,10 @@
                         <h2 class="mb-4">Shipping Details</h2>
                     </div>
                 </div>
-                <form action="" id="locations">
-                    <div class="row mb-2" data-aos="fade-up" data-aos-delay="200">
+                <form action="{{ route('checkout') }}" enctype="multipart/form-data" method="POST">
+                    @csrf
+                    <input type="hidden" name="total_price" value="{{ $totalPrice }}">
+                    <div class="row mb-2" data-aos="fade-up" data-aos-delay="200" id="locations">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_one">Address 1</label>
@@ -121,7 +123,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="zip_code">Postal Code</label>
-                                <input type="text" class="form-control" id="zip_code" name="zip_code" value="40512" />
+                                <input type="text" class="form-control" id="zip_code" name="zip_code"
+                                    value="40512" />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -149,15 +152,15 @@
                     </div>
                     <div class="row" data-aos="fade-up" data-aos-delay="200">
                         <div class="col-4 col-md-2">
-                            <div class="product-title">Rp. </div>
+                            <div class="product-title">Rp. 0</div>
                             <div class="product-subtitle">Country Tax</div>
                         </div>
                         <div class="col-4 col-md-3">
-                            <div class="product-title">Rp. </div>
+                            <div class="product-title">Rp. 0</div>
                             <div class="product-subtitle">Product Insurance</div>
                         </div>
                         <div class="col-4 col-md-2">
-                            <div class="product-title">Rp. </div>
+                            <div class="product-title">Rp. 0</div>
                             <div class="product-subtitle">Ship to Jakarta</div>
                         </div>
                         <div class="col-4 col-md-2">
@@ -165,9 +168,9 @@
                             <div class="product-subtitle">Total</div>
                         </div>
                         <div class="col-8 col-md-3">
-                            <a href="/success.html" class="btn btn-success mt-4 px-4 btn-block">
+                            <button type="submit" class="btn btn-success mt-4 px-4 btn-block">
                                 Checkout Now
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -186,7 +189,6 @@
             mounted() {
                 AOS.init();
                 this.getProvincesData();
-
             },
             data: {
                 provinces: null,
