@@ -22,4 +22,24 @@ class TransactionDetail extends Model
      * @var array
      */
     protected $hidden = [];
+
+    /**
+     * Get the product associated with the TransactionDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'products_id');
+    }
+
+    /**
+     * Get the transaction associated with the TransactionDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'id', 'transactions_id');
+    }
 }

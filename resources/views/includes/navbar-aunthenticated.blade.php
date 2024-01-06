@@ -2,8 +2,8 @@
     <nav class="navbar navbar-expand-lg navbar-light navbar-store fixed-top navbar-fixed-top" data-aos="fade-down"
         aria-label="Navbar">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/images/logo.svg" alt="" />
+            <a class="navbar-brand" href="{{ route('/') }}">
+                <img class="w-25" src="/images/logo-herva.png" alt="" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,14 +12,14 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home </a>
+                        <a class="nav-link" href="{{ route('home') }}">Home </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/categories.html">Categories</a>
+                        <a class="nav-link" href="{{ route('categories') }}">Categories</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#">Rewards</a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <!-- Desktop Menu -->
@@ -29,13 +29,18 @@
                             aria-haspopup="true" aria-expanded="false">
                             <img src="/images/icon-user.png" alt=""
                                 class="rounded-circle mr-2 profile-picture" />
-                            Hi, Angga
+                            Hi, {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/dashboard.html">Dashboard</a>
-                            <a class="dropdown-item" href="/dashboard-account.html">Settings</a>
+                            <a class="dropdown-item" href="{{ route('/') }}">Dashboard</a>
+                            {{-- <a class="dropdown-item" href="/dashboard-account.html">Settings</a> --}}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/">Logout</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </div>
                     </li>
                     <li class="nav-item">

@@ -20,4 +20,14 @@ class Transaction extends Model
      * @var array
      */
     protected $hidden = [];
+
+    /**
+     * Get the user that owns the Transaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 }
