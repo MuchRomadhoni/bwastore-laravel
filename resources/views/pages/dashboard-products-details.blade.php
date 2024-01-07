@@ -50,7 +50,7 @@
                                             <div class="form-group">
                                                 <label>Kategori Product</label>
                                                 <select name="categories_id" class="form-control">
-                                                    <option value="{{ $product->categories_id }}">Tidak Diganti
+                                                    <option value="{{ $user->categories_id }}">Tidak Diganti
                                                         ({{ $product->category->name }})</option>
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
