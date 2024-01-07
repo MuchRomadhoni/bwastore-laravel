@@ -37,7 +37,13 @@
                     <a href="" class="list-group-item list-group-item-action">Transactions</a>
                     <a href="{{ route('user.index') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">Users</a>
-                    <a href="" class="list-group-item list-group-item-action">Sign Out</a>
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();"
+                        class="list-group-item list-group-item-action">Sign Out</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
             </div>
             <!-- /#sidebar-wrapper -->
@@ -58,21 +64,27 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto d-none d-lg-flex">
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="/images/icon-user.png" alt=""
                                         class="rounded-circle mr-2 profile-picture" />
-                                    Hi, Angga
+                                    Hi, {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/">Logout</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
                             </li>
                         </ul>
                         <!-- Mobile Menu -->
                         <ul class="navbar-nav d-block d-lg-none mt-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"> Hi, Angga </a>
+                                <a class="nav-link" href="#"> Hi, {{ Auth::user()->name }} </a>
                             </li>
                         </ul>
                     </div>

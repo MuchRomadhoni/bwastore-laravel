@@ -53,7 +53,7 @@
                 <!-- Mobile Menu -->
                 <ul class="navbar-nav d-block d-lg-none">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> Hi, Angga </a>
+                        <a class="nav-link" href="#"> Hi, {{ Auth::user()->name }} </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link d-inline-block" href="#"> Cart </a>
