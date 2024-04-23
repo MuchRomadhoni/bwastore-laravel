@@ -1,8 +1,6 @@
 <h1 align="center">Hi 👋, I'm Much. Romadhoni</h1>
 <h3 align="center">A passionate website developer from Indonesia</h3>
 
-- 🔭 I’m currently working on [BWASTORE](https://github.com/MuchRomadhoni/bwastore-laravel)
-
 - 🌱 I’m currently learning **Laravel 10, VueJS 3 etc that related with website tech**
 
 - 👨‍💻 All of my projects are available at [https://github.com/MuchRomadhoni](https://github.com/MuchRomadhoni)
