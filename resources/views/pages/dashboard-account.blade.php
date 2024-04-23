@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.user')
 
 @section('title')
     Account Settings

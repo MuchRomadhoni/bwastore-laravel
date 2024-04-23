@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\TransactionController;
 |
 */
 
+//GUEST
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
@@ -33,37 +34,53 @@ Route::get('/success', [App\Http\Controllers\CartController::class, 'success'])-
 Route::get('/register/success', [App\Http\Controllers\Auth\RegisterController::class, 'success'])->name('register-success');
 
 
+//USEr/PELANGGAN
 Route::middleware(['auth'])->group(
     function () {
+        Route::get('/dashboard-user', [App\Http\Controllers\DashboardController::class, 'indexUser'])->name('dashboard-user');
+
         Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
         Route::delete('/cart/{id}', [App\Http\Controllers\CartController::class, 'delete'])->name('cart-delete');
 
         Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout');
 
+        Route::get('/dashboard/transactions', [App\Http\Controllers\DashboardTransactionController::class, 'index'])->name('dashboard-transaction');
+        Route::get('/dashboard/transactions/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'details'])->name('dashboard-transaction-details');
+        // Route::post('/dashboard/transactions/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
+
+        Route::get('/dashboard/account', [App\Http\Controllers\DashboardSettingController::class, 'account'])->name('dashboard-settings-account');
+        Route::post('/dashboard/account/{redirect}', [App\Http\Controllers\DashboardSettingController::class, 'update'])->name('dashboard-settings-redirect');
+    }
+);
+
+Route::middleware(['auth', 'admin'])->group(
+    function () {
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+        //CRUD PRODUCT
         Route::get('/dashboard/products', [App\Http\Controllers\DashboardProductController::class, 'index'])->name('dashboard-product');
         Route::get('/dashboard/products/create', [App\Http\Controllers\DashboardProductController::class, 'create'])->name('dashboard-product-create');
         Route::post('/dashboard/products', [App\Http\Controllers\DashboardProductController::class, 'store'])->name('dashboard-product-store');
         Route::get('/dashboard/products/{id}', [App\Http\Controllers\DashboardProductController::class, 'details'])->name('dashboard-product-details');
         Route::post('/dashboard/products/{id}', [App\Http\Controllers\DashboardProductController::class, 'update'])->name('dashboard-product-update');
 
+        //UPLOAD GALLERY
         Route::post('/dashboard/products/gallery/upload', [App\Http\Controllers\DashboardProductController::class, 'uploadGallery'])->name('dashboard-product-gallery-upload');
         Route::get('/dashboard/products/gallery/delete/{id}', [App\Http\Controllers\DashboardProductController::class, 'deleteGallery'])->name('dashboard-product-gallery-delete');
 
-        Route::get('/dashboard/transactions', [App\Http\Controllers\DashboardTransactionController::class, 'index'])->name('dashboard-transaction');
-        Route::get('/dashboard/transactions/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'details'])->name('dashboard-transaction-details');
-        Route::post('/dashboard/transactions/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
-
+        //STORE SETTINGS
         Route::get('/dashboard/settings', [App\Http\Controllers\DashboardSettingController::class, 'store'])->name('dashboard-settings-store');
-        Route::get('/dashboard/account', [App\Http\Controllers\DashboardSettingController::class, 'account'])->name('dashboard-settings-account');
-        Route::post('/dashboard/account/{redirect}', [App\Http\Controllers\DashboardSettingController::class, 'update'])->name('dashboard-settings-redirect');
+
+        //TRANSACTION
+        Route::get('/dashboard/transactions-sell', [App\Http\Controllers\DashboardTransactionController::class, 'indexAdmin'])->name('dashboard-transaction-sell');
+        Route::get('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'detailsAdmin'])->name('dashboard-transaction-details-admin');
+        Route::post('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
     }
 );
 
 Route::prefix('admin')
     // ->namespace('Admin')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'superadmin'])
     ->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin-dashboard');
         Route::resource('category', CategoryController::class);

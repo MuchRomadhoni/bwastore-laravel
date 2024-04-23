@@ -16,9 +16,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('categories') }}">Categories</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Rewards</a>
-                </li>
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('register') }}">Sign Up</a>
@@ -35,12 +32,20 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture" />
+                            <img src="/images/icon-profile.svg" alt=""
+                                class="rounded-circle mr-2 profile-picture" />
                             Hi, {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
-                            <a class="dropdown-item" href="{{ route('dashboard-settings-account') }}">Settings</a>
+                            @if (Auth::user()->roles == 'ADMIN')
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                            @endif
+                            @if (Auth::user()->roles == 'USER')
+                                <a class="dropdown-item" href="{{ route('dashboard-user') }}">Dashboard user</a>
+                            @endif
+                            @if (Auth::user()->roles == 'SUPERADMIN')
+                                <a class="dropdown-item" href="{{ route('admin-dashboard') }}">Dashboard Superadmin</a>
+                            @endif
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

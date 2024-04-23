@@ -28,8 +28,8 @@ class DashboardProductController extends Controller
         $categories = Category::all();
 
         return view('pages.dashboard-products-details', [
-            'categories' => $categories,
-            'product' => $product
+            // 'categories' => $categories,
+            // 'product' => $product
         ]);
     }
 

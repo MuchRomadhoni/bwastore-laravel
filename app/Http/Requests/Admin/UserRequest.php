@@ -22,9 +22,9 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|string|max:50',
-            'email'=>'required|email|unique:users',
-            'roles'=>'nullable|string|in:ADMIN,USER',
+            'name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'roles' => 'nullable|string|in:SUPERADMIN,ADMIN,USER',
         ];
     }
 }

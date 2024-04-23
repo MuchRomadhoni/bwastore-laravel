@@ -61,7 +61,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group">
+                            <div class="form-group d-none">
                                 <label>Store</label>
                                 <p class="text-muted">
                                     Apakah anda juga ingin membuka toko?
@@ -77,7 +77,7 @@
                                     <label makasih class="custom-control-label" for="openStoreFalse">Enggak, makasih</label>
                                 </div>
                             </div>
-                            <div class="form-group" v-if="is_store_open">
+                            <div class="form-group d-none" v-if="is_store_open">
                                 <label>Nama Toko</label>
                                 <input v-model="store_name" id="store_name" type="text"
                                     class="form-control @error('store_name') is-invalid @enderror" name="store_name"
@@ -88,7 +88,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="form-group" v-if="is_store_open">
+                            <div class="form-group d-none" v-if="is_store_open">
                                 <label>Kategori</label>
                                 <select name="categories_id" class="form-control">
                                     <option value="" disabled>Select Category</option>

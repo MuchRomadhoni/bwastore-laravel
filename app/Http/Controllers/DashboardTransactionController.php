@@ -10,17 +10,23 @@ class DashboardTransactionController extends Controller
 {
     public function index()
     {
-        $sellTransactions = TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('product', function ($product) {
-            $product->where('users_id', Auth::user()->id);
-        })->get();
-
         $buyTransactions = TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('transaction', function ($transaction) {
             $transaction->where('users_id', Auth::user()->id);
         })->get();
 
         return view('pages.dashboard-transactions', [
-            'sellTransactions' => $sellTransactions,
             'buyTransactions' => $buyTransactions
+        ]);
+    }
+
+    public function indexAdmin()
+    {
+        $sellTransactions = TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('product', function ($product) {
+            $product->where('users_id', Auth::user()->id);
+        })->get();
+
+        return view('pages.dashboard-transactions-sell', [
+            'sellTransactions' => $sellTransactions
         ]);
     }
 
@@ -33,6 +39,15 @@ class DashboardTransactionController extends Controller
         ]);
     }
 
+    public function detailsAdmin(Request $request, $id)
+    {
+        $transaction = TransactionDetail::with(['transaction.user', 'product.galleries'])->findOrFail($id);
+
+        return view('pages.dashboard-transactions-details-admin', [
+            'transaction' => $transaction
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $data = $request->all();
@@ -41,6 +56,6 @@ class DashboardTransactionController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('dashboard-transaction-details', $id);
+        return redirect()->route('dashboard-transaction-details-admin', $id);
     }
 }

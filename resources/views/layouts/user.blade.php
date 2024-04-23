@@ -12,7 +12,6 @@
     @stack('prepend-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link href="/style/main.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" rel="stylesheet">
     @stack('addon-style')
 </head>
 
@@ -20,28 +19,24 @@
     <div class="page-dashboard">
         <div class="d-flex" id="wrapper" data-aos="fade-right">
             <!-- Sidebar -->
-            <div class="border-right" id="sidebar-wrapper">
+            <div class="border-right" id="sidebar-wrapper" style="max-width: 240px">
                 <div class="sidebar-heading text-center">
-                    <img src="/images/logo-herva-baru.png" alt="" class="my-4" />
+                    <img src="/images/logo-herva.png" alt="" class="my-4 w-50" />
                 </div>
                 <div class="list-group list-group-flush">
-                    <a href="{{ route('admin-dashboard') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('product.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/product') ? 'active' : '' }}">Products</a>
-                    <a href="{{ route('product-gallery.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery*') ? 'active' : '' }}">Product
-                        Gallery</a>
-                    <a href="{{ route('category.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/category*') ? 'active' : '' }}">Categories</a>
-                    <a href="{{ route('transaction.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
-                    <a href="{{ route('user.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">Users</a>
+                    <a href="{{ route('dashboard-user') }}"
+                        class="list-group-item list-group-item-action {{ request()->is('dashboard-user*') ? 'active' : '' }}">Dashboard
+                        User</a>
+                    <a href="{{ route('dashboard-transaction') }}"
+                        class="list-group-item list-group-item-action {{ request()->is('dashboard/transactions*') ? 'active' : '' }}">Transactions</a>
+                    <a href="{{ route('dashboard-settings-account') }}"
+                        class="list-group-item list-group-item-action {{ request()->is('dashboard/account*') ? 'active' : '' }}">My
+                        Account</a>
                     <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"
-                        class="list-group-item list-group-item-action">Sign Out</a>
+                        class="list-group-item list-group-item-action">Sign
+                        Out</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
@@ -72,6 +67,18 @@
                                     Hi, {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @if (Auth::user()->roles == 'ADMIN')
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                                    @endif
+                                    @if (Auth::user()->roles == 'USER')
+                                        <a class="dropdown-item" href="{{ route('dashboard-user') }}">Dashboard
+                                            user</a>
+                                    @endif
+                                    @if (Auth::user()->roles == 'SUPERADMIN')
+                                        <a class="dropdown-item" href="{{ route('admin-dashboard') }}">Dashboard
+                                            Superadmin</a>
+                                    @endif
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">Logout</a>
@@ -81,11 +88,42 @@
                                     </form>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-inline-block mt-2" href="{{ route('cart') }}">
+                                    @php
+                                        $carts = \App\Models\Cart::where('users_id', Auth::user()->id)->count();
+                                    @endphp
+                                    @if ($carts > 0)
+                                        <img src="/images/icon-cart-filled.svg" alt="" />
+                                        <div class="cart-badge">
+                                            {{ $carts }}
+                                        </div>
+                                    @else
+                                        <img src="/images/icon-cart-empty.svg" alt="" />
+                                    @endif
+
+                                </a>
+                            </li>
                         </ul>
                         <!-- Mobile Menu -->
                         <ul class="navbar-nav d-block d-lg-none mt-3">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"> Hi, {{ Auth::user()->name }} </a>
+                                <a href="{{ route('dashboard') }}" class="nav-link">
+                                    Hi, {{ Auth::user()->name }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('cart') }}" class="nav-link d-inline-block">
+                                    Cart
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -99,16 +137,13 @@
     </div>
     <!-- Bootstrap core JavaScript -->
     @stack('prepend-script')
-    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/jquery/jquery.slim.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script>
-    <script>
-        $("#dataTable").DataTable();
-    </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
     </script>
+    <!-- Menu Toggle Script -->
     <script>
         $("#menu-toggle").click(function(e) {
             e.preventDefault();

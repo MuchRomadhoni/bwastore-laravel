@@ -27,12 +27,20 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img src="/images/icon-user.png" alt=""
+                            <img src="/images/icon-profile.svg" alt=""
                                 class="rounded-circle mr-2 profile-picture" />
                             Hi, {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('/') }}">Dashboard</a>
+                            @if (Auth::user()->roles == 'ADMIN')
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                            @endif
+                            @if (Auth::user()->roles == 'USER')
+                                <a class="dropdown-item" href="{{ route('dashboard-user') }}">Dashboard user</a>
+                            @endif
+                            @if (Auth::user()->roles == 'SUPERADMIN')
+                                <a class="dropdown-item" href="{{ route('admin-dashboard') }}">Dashboard Superadmin</a>
+                            @endif
                             {{-- <a class="dropdown-item" href="/dashboard-account.html">Settings</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"

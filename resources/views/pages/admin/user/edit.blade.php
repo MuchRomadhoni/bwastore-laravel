@@ -28,20 +28,23 @@
                         @endif
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{ route('user.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('user.update', $item->id) }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @method('PUT')
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Nama User</label>
-                                                <input type="text" name="name" class="form-control" value="{{ $item->name }}" required>
+                                                <input type="text" name="name" class="form-control"
+                                                    value="{{ $item->name }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Email User</label>
-                                                <input type="email" name="email" class="form-control" value="{{ $item->email }}" required>
+                                                <input type="email" name="email" class="form-control"
+                                                    value="{{ $item->email }}" required>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
@@ -56,6 +59,7 @@
                                                 <label>Roles</label>
                                                 <select name="roles" class="form-control" required>
                                                     <option value="{{ $item->roles }}" selected>Tidak diganti</option>
+                                                    <option value="SUPERADMIN">Superadmin</option>
                                                     <option value="ADMIN">Admin</option>
                                                     <option value="USER">User</option>
                                                 </select>

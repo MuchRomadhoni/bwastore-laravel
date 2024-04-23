@@ -32,4 +32,17 @@ class DashboardController extends Controller
             'customer' => $customer
         ]);
     }
+
+    public function indexUser()
+    {
+        $transactions =
+            TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('transaction', function ($transaction) {
+                $transaction->where('users_id', Auth::user()->id);
+            })->get();
+
+        return view('pages.dashboard-user', [
+            'transaction_count' => $transactions->count(),
+            'transaction_data' => $transactions
+        ]);
+    }
 }

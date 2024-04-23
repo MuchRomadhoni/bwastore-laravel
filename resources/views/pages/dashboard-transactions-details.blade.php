@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.user')
 
 @section('title')
     Store Dashboard Transaction Detail
@@ -69,84 +69,64 @@
                                         <h5>
                                             Shipping Informations
                                         </h5>
-                                        <form action="{{ route('dashboard-transaction-update', $transaction->id) }}"
-                                            method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">Address 1</div>
-                                                    <div class="product-subtitle">
-                                                        {{ $transaction->transaction->user->address_one }}
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">Address 1</div>
+                                                <div class="product-subtitle">
+                                                    {{ $transaction->transaction->user->address_one }}
                                                 </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">Address 2</div>
-                                                    <div class="product-subtitle">
-                                                        {{ $transaction->transaction->user->address_two }}
-                                                    </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">Address 2</div>
+                                                <div class="product-subtitle">
+                                                    {{ $transaction->transaction->user->address_two }}
                                                 </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">
-                                                        Province
-                                                    </div>
-                                                    <div class="product-subtitle">
-                                                        {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->name }}
-                                                    </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">
+                                                    Province
                                                 </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">City</div>
-                                                    <div class="product-subtitle">
-                                                        {{ App\Models\Regency::find($transaction->transaction->user->regencies_id)->name }}
-                                                    </div>
+                                                <div class="product-subtitle">
+                                                    {{ App\Models\Province::find($transaction->transaction->user->provinces_id)->name ?? '' }}
                                                 </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">Postal Code</div>
-                                                    <div class="product-subtitle">
-                                                        {{ $transaction->transaction->user->zip_code }}</div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">City</div>
+                                                <div class="product-subtitle">
+                                                    {{ App\Models\Regency::find($transaction->transaction->user->regencies_id)->name ?? '' }}
                                                 </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="product-title">Country</div>
-                                                    <div class="product-subtitle">
-                                                        {{ $transaction->transaction->user->country }}
-                                                    </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">Postal Code</div>
+                                                <div class="product-subtitle">
+                                                    {{ $transaction->transaction->user->zip_code ?? '' }}
                                                 </div>
-                                                <div class="col-12">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="product-title">Shipping Status</div>
-                                                            <select name="shipping_status" id="status"
-                                                                class="form-control" v-model="status">
-                                                                <option value="PENDING">Pending</option>
-                                                                <option value="SHIPPING">Shipping</option>
-                                                                <option value="SUCCESS">Success</option>
-                                                            </select>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="product-title">Country</div>
+                                                <div class="product-subtitle">
+                                                    {{ $transaction->transaction->user->country ?? '' }}
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="product-title">Shipping Status</div>
+                                                        <div class="product-subtitle">
+                                                            {{ $transaction->shipping_status }}
                                                         </div>
-                                                        <template v-if="status == 'SHIPPING'">
-                                                            <div class="col-md-3">
-                                                                <div class="product-title">
-                                                                    Input Resi
-                                                                </div>
-                                                                <input class="form-control" type="text" name="resi"
-                                                                    id="openStoreTrue" v-model="resi" />
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="submit"
-                                                                    class="btn btn-warning btn-block mt-4">
-                                                                    Update Resi
-                                                                </button>
-                                                            </div>
-                                                        </template>
                                                     </div>
+                                                    @if ($transaction->shipping_status == 'SHIPPING')
+                                                        <div class="col-md-3">
+                                                            <div class="product-title">Input Resi</div>
+                                                            <div class="product-subtitle">
+                                                                {{ $transaction->resi }}
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
-                                            <div class="row mt-4">
-                                                <div class="col">
-                                                    <button type="submit" class="btn btn-block btn-success btn-lg">
-                                                        Save Now
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -157,16 +137,3 @@
         </div>
     </div>
 @endsection
-
-@push('addon-script')
-    <script src="/vendor/vue/vue.js"></script>
-    <script>
-        var transactionDetails = new Vue({
-            el: "#transactionDetails",
-            data: {
-                status: "{{ $transaction->shipping_status }}",
-                resi: "{{ $transaction->resi }}",
-            },
-        });
-    </script>
-@endpush

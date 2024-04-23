@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $categories = Category::all();
         $products = Product::with('galleries')->paginate(20);
 
-        return view('pages.category',[
+        return view('pages.category', [
             'categories' => $categories,
             'products' => $products
         ]);
@@ -34,9 +34,9 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
         $category = Category::where('slug', $slug)->firstOrFail();
-        $products = Product::with('galleries')->where('categories_id', $category->id)->paginate(1);
+        $products = Product::with('galleries')->where('categories_id', $category->id)->paginate(20);
 
-        return view('pages.category',[
+        return view('pages.category', [
             'categories' => $categories,
             'products' => $products
         ]);

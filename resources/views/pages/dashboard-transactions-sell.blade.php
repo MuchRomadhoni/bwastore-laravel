@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.dashboard')
 
 @section('title')
     Store Dashboard Transaction
@@ -16,31 +16,31 @@
             <div class="dashboard-content">
                 <ul class="nav nav-pills" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="buy-tab" data-toggle="tab" href="#buy" role="tab"
-                            aria-controls="buy" aria-selected="false">Buy Product</a>
+                        <a class="nav-link active" id="sell-tab" data-toggle="tab" href="#sell" role="tab"
+                            aria-controls="sell" aria-selected="true">Sell Product</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="buy" role="tabpanel" aria-labelledby="buy-tab">
+                    <div class="tab-pane fade show active" id="sell" role="tabpanel" aria-labelledby="sell-tab">
                         <div class="row mt-3">
                             <div class="col-12 mt-2">
-                                @foreach ($buyTransactions as $buyTransaction)
+                                @foreach ($sellTransactions as $sellTransaction)
                                     <a class="card card-list d-block"
-                                        href="{{ route('dashboard-transaction-details', $buyTransaction->id) }}">
+                                        href="{{ route('dashboard-transaction-details-admin', $sellTransaction->id) }}">
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row align-items-center">
                                                 <div class="col-md-1">
-                                                    <img src="{{ Storage::url($buyTransaction->product->galleries->first()->photos ?? '') }}"
+                                                    <img src="{{ Storage::url($sellTransaction->product->galleries->first()->photos ?? '') }}"
                                                         class="w-50" />
                                                 </div>
                                                 <div class="col-md-4">
-                                                    {{ $buyTransaction->product->name }}
+                                                    {{ $sellTransaction->product->name }}
                                                 </div>
                                                 <div class="col-md-3">
-                                                    {{ $buyTransaction->product->user->store_name }}
+                                                    {{ $sellTransaction->product->user->store_name }}
                                                 </div>
                                                 <div class="col-md-3">
-                                                    {{ $buyTransaction->created_at }}
+                                                    {{ $sellTransaction->created_at }}
                                                 </div>
                                                 <div class="col-md-1 d-none d-md-block">
                                                     <img src="/images/dashboard-arrow-right.svg" alt="" />

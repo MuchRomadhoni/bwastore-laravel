@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
-    protected $fillable = ['name', 'users_id', 'categories_id','price', 'description', 'slug'];
+    protected $fillable = ['name', 'users_id', 'categories_id', 'price', 'description', 'slug'];
 
     protected $hidden = [];
 
@@ -31,7 +32,7 @@ class Product extends Model
      */
     public function user()
     {
-        return $this->hasOne(User::class, 'id','users_id');
+        return $this->hasOne(User::class, 'id', 'users_id');
     }
 
     /**
