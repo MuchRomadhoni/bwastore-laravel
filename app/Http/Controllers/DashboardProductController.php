@@ -24,12 +24,12 @@ class DashboardProductController extends Controller
 
     public function details(Request $request, $id)
     {
-        $product = Product::with(['galleries', 'user', 'category'])->findOrFail($id);
+        $products = Product::with(['galleries', 'user', 'category'])->findOrFail($id);
         $categories = Category::all();
 
         return view('pages.dashboard-products-details', [
-            // 'categories' => $categories,
-            // 'product' => $product
+            'categories' => $categories,
+            'products' => $products
         ]);
     }
 
@@ -90,6 +90,17 @@ class DashboardProductController extends Controller
         $data['slug'] = Str::slug($request->name);
 
         $item->update($data);
+
+        return redirect()->route('dashboard-product');
+    }
+
+    public function delete(string $id)
+    {
+        $item = Product::findOrFail($id);
+        $item2 = ProductGallery::where('products_id', $id);
+
+        $item->delete();
+        $item2->delete();
 
         return redirect()->route('dashboard-product');
     }

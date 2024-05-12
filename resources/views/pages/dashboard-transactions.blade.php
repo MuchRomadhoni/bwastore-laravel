@@ -31,7 +31,7 @@
                                             <div class="row">
                                                 <div class="col-md-1">
                                                     <img src="{{ Storage::url($buyTransaction->product->galleries->first()->photos ?? '') }}"
-                                                        class="w-50" />
+                                                        class="w-100" />
                                                 </div>
                                                 <div class="col-md-4">
                                                     {{ $buyTransaction->product->name }}

@@ -87,7 +87,7 @@ class CheckoutController extends Controller
             echo $e->getMessage();
         }
 
-        $snapToken = \Midtrans\Snap::getSnapToken($midtrans);
+        // $snapToken = \Midtrans\Snap::getSnapToken($midtrans);
     }
 
     public function callback(Request $request)

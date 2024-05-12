@@ -24,13 +24,14 @@
                     <img src="/images/logo-herva.png" alt="" class="my-4 w-50" />
                 </div>
                 <div class="list-group list-group-flush">
+                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Beranda</a>
                     <a href="{{ route('dashboard') }}"
                         class="list-group-item list-group-item-action {{ request()->is('dashboard') ? 'active' : '' }}">Dashboard</a>
                     <a href="{{ route('dashboard-product') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('dashboard/products') ? 'active' : '' }}">My
+                        class="list-group-item list-group-item-action {{ request()->is('dashboard/products*') ? 'active' : '' }}">My
                         Products</a>
                     <a href="{{ route('dashboard-transaction-sell') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('dashboard/transactions-sell') ? 'active' : '' }}">Transactions</a>
+                        class="list-group-item list-group-item-action {{ request()->is('dashboard/transactions-sell*') ? 'active' : '' }}">Transactions</a>
                     <a href="{{ route('dashboard-settings-store') }}"
                         class="list-group-item list-group-item-action {{ request()->is('dashboard/settings') ? 'active' : '' }}">Store
                         Settings</a>

@@ -25,6 +25,8 @@
                     <img src="/images/logo-herva-baru.png" alt="" class="my-4" />
                 </div>
                 <div class="list-group list-group-flush">
+                    {{-- @if (Auth::user()->roles == 'ADMIN') --}}
+                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Beranda</a>
                     <a href="{{ route('admin-dashboard') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin') ? 'active' : '' }}">Dashboard</a>
                     <a href="{{ route('product.index') }}"
@@ -38,6 +40,21 @@
                         class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
                     <a href="{{ route('user.index') }}"
                         class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">Users</a>
+                    {{-- @endif --}}
+                    {{--
+                    @if (Auth::user()->roles == 'SUPERADMIN')
+                        <a href="{{ route('dashboard') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('dashboard') ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('dashboard-product') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('dashboard/products*') ? 'active' : '' }}">My
+                            Products</a>
+                        <a href="{{ route('dashboard-transaction-sell') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('dashboard/transactions-sell*') ? 'active' : '' }}">Transactions</a>
+                        <a href="{{ route('dashboard-settings-store') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('dashboard/settings') ? 'active' : '' }}">Store
+                            Settings</a>
+                    @endif --}}
+
                     <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"

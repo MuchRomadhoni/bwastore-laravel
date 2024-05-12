@@ -84,41 +84,39 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-8 mt-3 mb-3">
-                            <h5>Customer Review (3)</h5>
+                            <h3>Product Recommendation</h3>
                         </div>
                     </div>
+
+                    {{-- Product Recommendation --}}
                     <div class="row">
-                        <div class="col-12 col-lg-8">
-                            <ul class="list-unstyled">
-                                <li class="media">
-                                    <img src="/images/icon-testimonial-1.png" class="mr-3 rounded-circle" alt="" />
-                                    <div class="media-body">
-                                        <h5 class="mt-2 mb-1">Hazza Risky</h5>
-                                        I thought it was not good for living room. I really happy
-                                        to decided buy this product last week now feels like
-                                        homey.
+                        @php
+                            $incrementProduct = 0;
+                        @endphp
+                        @forelse ($productRecommendation as $pr)
+                            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up"
+                                data-aos-delay="{{ $incrementProduct += 100 }}">
+                                <a class="component-products d-block" href="{{ route('details', $pr->slug) }}">
+                                    <div class="products-thumbnail">
+                                        <div class="products-image"
+                                            style=" @if ($pr->galleries->count()) background-image: url('{{ Storage::url($pr->galleries->first()->photos) }}')
+                            @else
+                                background-color: #eee @endif">
+                                        </div>
                                     </div>
-                                </li>
-                                <li class="media my-4">
-                                    <img src="/images/icon-testimonial-2.png" class="mr-3 rounded-circle" alt="" />
-                                    <div class="media-body">
-                                        <h5 class="mt-2 mb-1">Anna Sukkirata</h5>
-                                        Color is great with the minimalist concept. Even I thought
-                                        it was made by Cactus industry. I do really satisfied with
-                                        this.
+                                    <div class="products-text">
+                                        {{ $pr->name }}
                                     </div>
-                                </li>
-                                <li class="media">
-                                    <img src="/images/icon-testimonial-3.png" class="mr-3 rounded-circle" alt="" />
-                                    <div class="media-body">
-                                        <h5 class="mt-2 mb-1">Dakimu Wangi</h5>
-                                        When I saw at first, it was really awesome to have with.
-                                        Just let me know if there is another upcoming product like
-                                        this.
+                                    <div class="products-price">
+                                        Rp. {{ number_format($pr->price) }}
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
+                                </a>
+                            </div>
+                        @empty
+                            <div class="col-12 text-center py-5" data-aos="fade-up" data-aos-delay="100">
+                                No Products Found
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </section>

@@ -24,6 +24,7 @@
                     <img src="/images/logo-herva.png" alt="" class="my-4 w-50" />
                 </div>
                 <div class="list-group list-group-flush">
+                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Beranda</a>
                     <a href="{{ route('dashboard-user') }}"
                         class="list-group-item list-group-item-action {{ request()->is('dashboard-user*') ? 'active' : '' }}">Dashboard
                         User</a>
@@ -121,7 +122,8 @@
                                 <a class="nav-link" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">Logout</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="d-none">
                                     @csrf
                                 </form>
                             </li>

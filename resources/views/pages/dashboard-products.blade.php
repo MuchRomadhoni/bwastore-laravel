@@ -22,34 +22,31 @@
                 <div class="row mt-4">
                     @foreach ($products as $product)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            {{-- <a class="card card-dashboard-product d-block"
-                                href="{{ route('dashboard-product-details', $product->id) }}">
-                                <div class="card-body">
-                                    <div class="card-body-img"
-                                        style="background-image: url('{{ Storage::url($product->galleries->first()->photos ?? '') }}')">
-                                    </div>
-                                    <img src="{{ Storage::url($product->galleries->first()->photos ?? '') }}" alt=""
-                                        class="w-100 mb-2" />
-                                    <div class="product-title">{{ $product->name }}</div>
-                                    <div class="product-category">{{ $product->category->name }}</div>
-                                </div>
-                            </a> --}}
-                            <a class="component-products d-block bg-white p-3 rounded"
-                                href="{{ route('dashboard-product-details', $product->id) }}">
+                            {{-- <div class="col"> --}}
+                            <div class="component-products d-block bg-white p-3 rounded">
                                 <div class="products-thumbnail" style="height: 200px">
                                     <div class="products-image"
                                         style=" @if ($product->galleries->count()) background-image: url('{{ Storage::url($product->galleries->first()->photos) }}')
-                            @else
-                                background-color: #eee @endif">
+                                @else
+                                    background-color: #eee @endif">
                                     </div>
                                 </div>
-                                <div class="products-text">
+                                <div class="products-text text-truncate">
                                     {{ $product->name }}
                                 </div>
-                                <div class="products-price">
+                                <div class="products-price mb-2">
                                     {{ $product->category->name }}
                                 </div>
-                            </a>
+                                <a class="btn btn-outline-success btn-block"
+                                    href="{{ route('dashboard-product-details', $product->id) }}">
+                                    Update
+                                </a>
+                                <a class="btn btn-outline-danger btn-block"
+                                    href="{{ route('dashboard-product-delete', $product->id) }}">
+                                    Delete
+                                </a>
+                            </div>
+                            {{-- </div> --}}
                         </div>
                     @endforeach
                 </div>
