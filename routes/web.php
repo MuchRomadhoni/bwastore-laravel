@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(
     }
 );
 
-Route::middleware(['auth', 'admin'])->group(
+Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(
     function () {
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -78,16 +78,18 @@ Route::middleware(['auth', 'admin'])->group(
         Route::get('/dashboard/transactions-sell', [App\Http\Controllers\DashboardTransactionController::class, 'indexAdmin'])->name('dashboard-transaction-sell');
         Route::get('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'detailsAdmin'])->name('dashboard-transaction-details-admin');
         Route::post('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
+
+        //user management
+        Route::resource('user', UserController::class);
     }
 );
 
 Route::prefix('admin')
     // ->namespace('Admin')
-    ->middleware(['auth', 'superadmin'])
+    ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin-dashboard');
         Route::resource('category', CategoryController::class);
-        Route::resource('user', UserController::class);
         Route::resource('product', ProductController::class);
         Route::resource('product-gallery', ProductGalleryController::class);
         Route::resource('transaction', TransactionController::class);

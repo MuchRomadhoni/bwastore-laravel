@@ -33,13 +33,13 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @if (Auth::user()->roles == 'ADMIN')
-                                <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
+                                <a class="dropdown-item" href="{{ route('admin-dashboard') }}">Dashboard Admin</a>
                             @endif
                             @if (Auth::user()->roles == 'USER')
                                 <a class="dropdown-item" href="{{ route('dashboard-user') }}">Dashboard user</a>
                             @endif
                             @if (Auth::user()->roles == 'SUPERADMIN')
-                                <a class="dropdown-item" href="{{ route('admin-dashboard') }}">Dashboard Superadmin</a>
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard Superadmin</a>
                             @endif
                             {{-- <a class="dropdown-item" href="/dashboard-account.html">Settings</a> --}}
                             <div class="dropdown-divider"></div>

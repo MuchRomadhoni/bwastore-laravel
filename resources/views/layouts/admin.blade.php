@@ -25,35 +25,35 @@
                     <img src="/images/logo-herva-baru.png" alt="" class="my-4" />
                 </div>
                 <div class="list-group list-group-flush">
-                    {{-- @if (Auth::user()->roles == 'ADMIN') --}}
-                    <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Beranda</a>
-                    <a href="{{ route('admin-dashboard') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('product.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/product') ? 'active' : '' }}">Products</a>
-                    <a href="{{ route('product-gallery.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery*') ? 'active' : '' }}">Product
-                        Gallery</a>
-                    <a href="{{ route('category.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/category*') ? 'active' : '' }}">Categories</a>
-                    <a href="{{ route('transaction.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
-                    <a href="{{ route('user.index') }}"
-                        class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">Users</a>
-                    {{-- @endif --}}
-                    {{--
+                    @if (Auth::user()->roles == 'ADMIN')
+                        <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Beranda</a>
+                        <a href="{{ route('admin-dashboard') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('admin') ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('product.index') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('admin/product') ? 'active' : '' }}">Products</a>
+                        <a href="{{ route('product-gallery.index') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('admin/product-gallery*') ? 'active' : '' }}">Product
+                            Gallery</a>
+                        <a href="{{ route('category.index') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('admin/category*') ? 'active' : '' }}">Categories</a>
+                        <a href="{{ route('transaction.index') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
+                    @endif
+
                     @if (Auth::user()->roles == 'SUPERADMIN')
                         <a href="{{ route('dashboard') }}"
-                            class="list-group-item list-group-item-action {{ request()->is('dashboard') ? 'active' : '' }}">Dashboard</a>
+                            class="list-group-item list-group-item-action {{ request()->is('superadmin/dashboard') ? 'active' : '' }}">Dashboard</a>
                         <a href="{{ route('dashboard-product') }}"
-                            class="list-group-item list-group-item-action {{ request()->is('dashboard/products*') ? 'active' : '' }}">My
+                            class="list-group-item list-group-item-action {{ request()->is('superadmin/dashboard/products*') ? 'active' : '' }}">My
                             Products</a>
                         <a href="{{ route('dashboard-transaction-sell') }}"
-                            class="list-group-item list-group-item-action {{ request()->is('dashboard/transactions-sell*') ? 'active' : '' }}">Transactions</a>
+                            class="list-group-item list-group-item-action {{ request()->is('superadmin/dashboard/transactions-sell*') ? 'active' : '' }}">Transactions</a>
+                        <a href="{{ route('user.index') }}"
+                            class="list-group-item list-group-item-action {{ request()->is('superadmin/user*') ? 'active' : '' }}">Users</a>
                         <a href="{{ route('dashboard-settings-store') }}"
-                            class="list-group-item list-group-item-action {{ request()->is('dashboard/settings') ? 'active' : '' }}">Store
+                            class="list-group-item list-group-item-action {{ request()->is('superadmin/dashboard/settings') ? 'active' : '' }}">Store
                             Settings</a>
-                    @endif --}}
+                    @endif
 
                     <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
