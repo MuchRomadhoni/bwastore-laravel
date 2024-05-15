@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 use App\Http\Requests\Admin\UserRequest;
 
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {

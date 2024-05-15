@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 use App\Http\Requests\Admin\CategoryRequest;
 
-use DataTables;
 
 class CategoryController extends Controller
 {

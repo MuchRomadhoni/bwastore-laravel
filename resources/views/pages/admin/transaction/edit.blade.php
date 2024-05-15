@@ -50,8 +50,13 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Total Price</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
                                                 <input type="number" name="total_price" class="form-control"
                                                     value="{{ $item->total_price }}" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

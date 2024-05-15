@@ -93,6 +93,9 @@
                                 <div class="products-price">
                                     Rp. {{ number_format($product->price) }}
                                 </div>
+                                <div class="products-stock">
+                                    Stock Tersedia {{ $product->stock}} pcs
+                                </div>
                             </a>
                         </div>
                     @empty
