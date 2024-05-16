@@ -65,6 +65,9 @@ Store Category Page
                         <div class="products-price">
                             Rp. {{ $product->price }}
                         </div>
+                        <div class="products-stock">
+                            Stock Tersedia {{ $product->stock}} pcs
+                        </div>
                     </a>
                 </div>
                 @empty

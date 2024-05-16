@@ -54,14 +54,20 @@
                             <h1>{{ $product->name }}</h1>
                             <div class="owner">By {{ $product->user->store_name }}</div>
                             <div class="price">Rp. {{ number_format($product->price) }}</div>
+                            <div class="stock">Stock Tersedia {{ $product->stock }} pcs</div>
                         </div>
                         <div class="col-lg-2" data-aos="zoom-in">
                             @auth
                                 <form action="{{ route('details-add', $product->id) }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <button type="submit" class="btn btn-success nav-link px-4 text-white btn-block mb-3">Add
-                                        to Cart</button>
+                                    <button type="submit" class="btn btn-success nav-link px-4 text-white btn-block mb-3" 
+                                    @if($product->stock == 0) 
+                                        disabled 
+                                    @endif
+                                >
+                                    Add to Cart
+                                </button>
                                 </form>
                             @else
                                 <a href="{{ route('login') }}"
@@ -112,6 +118,9 @@
                                     </div>
                                     <div class="products-price">
                                         Rp. {{ number_format($pr->price) }}
+                                    </div>
+                                    <div class="products-stock">
+                                        Stock Tersedia {{ $product->stock}} pcs
                                     </div>
                                 </a>
                             </div>

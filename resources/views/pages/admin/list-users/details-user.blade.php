@@ -1,11 +1,64 @@
 @extends('layouts.admin')
 
 @section('title')
-    Transactions
+    List Users
 @endsection
 
 @section('content')
     <!-- Section Content -->
+    <div class="section-content section-dashboard-home" data-aos="fade-up">
+        <div class="container-fluid">
+            <div class="dashboard-heading">
+                <h2 class="dashboard-title">Details User</h2>
+                <p class="dashboard-subtitle">
+                    Details User
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-content p-4">
+        <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="row col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nama User</label>
+                                    <input type="text" name="name" class="form-control"
+                                        value="{{ $item->name }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Roles</label>
+                                    <input type="text" name="roles" class="form-control"
+                                        value="{{ $item->roles }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Email User</label>
+                                    <input type="email" name="email" class="form-control"
+                                        value="{{ $item->email }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="section-content section-dashboard-home" data-aos="fade-up">
         <div class="container-fluid">
             <div class="dashboard-heading">
@@ -20,7 +73,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
+                                    <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTableTransaction">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -28,7 +81,6 @@
                                                 <th>Harga</th>
                                                 <th>Status</th>
                                                 <th>Dibuat</th>
-                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -41,13 +93,12 @@
             </div>
         </div>
     </div>
-@endsection
-
+@endSection
 
 @push('addon-script')
     <script>
         // AJAX DataTable
-        var datatable = $('#crudTable').DataTable({
+        var datatable = $('#crudTableTransaction').DataTable({
             processing: true,
             serverSide: true,
             ordering: true,
@@ -91,15 +142,11 @@
                         return '<span class="' + statusClass + '">' + data + '</span>';
                     }
                 },
-
                 {
                     data: 'created_at',
                     name: 'created_at',
                     render: function(data, type, row) {
-                        // Ubah data menjadi objek Date
                         var date = new Date(data);
-
-                        // Format tanggal menggunakan Intl.DateTimeFormat
                         var options = {
                             year: 'numeric',
                             month: 'long',
@@ -107,14 +154,6 @@
                         };
                         return new Intl.DateTimeFormat('id-ID', options).format(date);
                     }
-                },
-
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    width: '15%'
                 },
             ]
         });

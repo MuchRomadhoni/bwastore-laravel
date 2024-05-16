@@ -30,6 +30,7 @@ Product
                                             <th>Nama</th>
                                             <th>Pemilik</th>
                                             <th>Kategori</th>
+                                            <th>Stock</th>
                                             <th>Harga</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -50,41 +51,45 @@ Product
 @push('addon-script')
 <script>
     // AJAX DataTable
-        var datatable = $('#crudTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ordering: true,
-            ajax: {
-                url: '{!! url()->current() !!}',
+    var datatable = $('#crudTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        ajax: {
+            url: '{!! url()->current() !!}',
+        },
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'user.name', name: 'user.name' },
+            { data: 'category.name', name: 'category.name' },
+            { 
+                data: 'stock', 
+                name: 'stock',
+                render: function(data, type, row) {
+                    return data + ' pcs';
+                }
             },
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'user.name',
-                    name: 'user.name'
-                },
-                {
-                    data: 'category.name',
-                    name: 'category.name'
-                },
-                {
-                    data: 'price',
-                    name: 'price'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    width: '15%'
-                },
-            ]
-        });
+            { 
+                data: 'price', 
+                name: 'price',
+                render: function(data, type, row) {
+                    return 'Rp.' + parseFloat(data).toLocaleString('id-ID', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    });
+                }
+            },
+            { 
+                data: 'action', 
+                name: 'action', 
+                orderable: false, 
+                searchable: false, 
+                width: '15%' 
+            },
+        ]
+    });
 </script>
+
+
 @endpush
