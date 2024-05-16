@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,8 +32,13 @@ class ListUserController extends Controller
     {
         $item = User::findOrFail($id);
         // dd($item);
+        if (request()->ajax()) {
+            $list = Transaction::where('users_id', $id)->with(['user'])->get();
+            return DataTables::of($list)
+                ->make();
+        }
         return view('pages.admin.list-users.details-user', [
-            'item' => $item
+            'item' => $item 
     ]);
     }
 

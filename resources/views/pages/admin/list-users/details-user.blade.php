@@ -73,7 +73,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
+                                    <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTableTransaction">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -81,7 +81,6 @@
                                                 <th>Harga</th>
                                                 <th>Status</th>
                                                 <th>Dibuat</th>
-                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -96,10 +95,10 @@
     </div>
 @endSection
 
-{{-- @push('addon-script')
+@push('addon-script')
     <script>
         // AJAX DataTable
-        var datatable = $('#crudTable').DataTable({
+        var datatable = $('#crudTableTransaction').DataTable({
             processing: true,
             serverSide: true,
             ordering: true,
@@ -116,24 +115,47 @@
                 },
                 {
                     data: 'total_price',
-                    name: 'total_price'
+                    name: 'total_price',
+                    render: function(data, type, row) {
+                        return 'Rp.' + parseFloat(data).toLocaleString('id-ID', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                        });
+                    }
                 },
                 {
                     data: 'transaction_status',
-                    name: 'transaction_status'
+                    name: 'transaction_status',
+                    render: function(data, type, row) {
+                        var statusClass = '';
+
+                        // Membuat kelas CSS berdasarkan nilai status
+                        if (data === 'PENDING') {
+                            statusClass = 'text-warning'; // Warna kuning untuk status pending
+                        } else if (data === 'SHIPPING') {
+                            statusClass = 'text-primary'; // Warna biru untuk status shipping
+                        } else if (data === 'SUCCESS') {
+                            statusClass = 'text-success'; // Warna hijau untuk status success
+                        }
+
+                        // Mengembalikan nilai dengan kelas CSS yang sesuai
+                        return '<span class="' + statusClass + '">' + data + '</span>';
+                    }
                 },
                 {
                     data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    width: '15%'
+                    name: 'created_at',
+                    render: function(data, type, row) {
+                        var date = new Date(data);
+                        var options = {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        };
+                        return new Intl.DateTimeFormat('id-ID', options).format(date);
+                    }
                 },
             ]
         });
     </script>
-@endpush --}}
+@endpush
