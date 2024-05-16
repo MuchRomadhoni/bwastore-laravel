@@ -46,6 +46,7 @@ class DetailController extends Controller
         $cosineMatrix = [];
         foreach ($tfIdfMatrix as $index => $vector) {
             // if ($index == $selectedProduct->id) {
+            //     $cosineMatrix[$index + 1] = null;
             //     continue;
             // }
             // Pastikan $tempTransformedDesc adalah array dari array
@@ -57,6 +58,7 @@ class DetailController extends Controller
 
         // // Sort cosine similarity matrix by similarity value (descending order)
         arsort($cosineMatrix);
+        // dd($cosineMatrix);
 
         // Get top 5 recommended products
         $recommendedProductIds = array_keys(array_slice($cosineMatrix, 0, 10, true));
@@ -70,7 +72,7 @@ class DetailController extends Controller
             ->firstOrFail();
 
         return view('pages.detail', [
-            // dd($recommendedProductIds, $productRecommendation, $cosineMatrix)
+            // dd($recommendedProductIds, $productRecommendation, $cosineMatrix),
             'product' => $product,
             'productRecommendation' => $productRecommendation
         ]);

@@ -94,6 +94,9 @@
                             $incrementProduct = 0;
                         @endphp
                         @forelse ($productRecommendation as $pr)
+                            @if ($pr->id == $product->id)
+                                @continue
+                            @endif
                             <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up"
                                 data-aos-delay="{{ $incrementProduct += 100 }}">
                                 <a class="component-products d-block" href="{{ route('details', $pr->slug) }}">
