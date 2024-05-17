@@ -76,9 +76,9 @@ Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(
         Route::get('/dashboard/settings', [App\Http\Controllers\DashboardSettingController::class, 'store'])->name('dashboard-settings-store');
 
         //TRANSACTION
-        Route::get('/dashboard/transactions-sell', [App\Http\Controllers\DashboardTransactionController::class, 'indexAdmin'])->name('dashboard-transaction-sell');
-        Route::get('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'detailsAdmin'])->name('dashboard-transaction-details-admin');
-        Route::post('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
+        // Route::get('/dashboard/transactions-sell', [App\Http\Controllers\DashboardTransactionController::class, 'indexAdmin'])->name('dashboard-transaction-sell');
+        // Route::get('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'detailsAdmin'])->name('dashboard-transaction-details-admin');
+        // Route::post('/dashboard/transactions-sell/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'update'])->name('dashboard-transaction-update');
 
         //user management
         Route::resource('user', UserController::class);

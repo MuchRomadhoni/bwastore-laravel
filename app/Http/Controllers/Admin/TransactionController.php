@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TransactionDetail;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -91,10 +92,10 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        $item = Transaction::findOrFail($id);
+        $transaction = TransactionDetail::with(['transaction.user', 'product.galleries'])->findOrFail($id);
 
         return view('pages.admin.transaction.edit', [
-            'item' => $item,
+            'transaction' => $transaction
         ]);
     }
 
@@ -104,7 +105,7 @@ class TransactionController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->all();
-        $item = Transaction::findOrFail($id);
+        $item = TransactionDetail::findOrFail($id);
         $item->update($data);
 
         return redirect()->route('transaction.index');

@@ -19,6 +19,8 @@ class CartController extends Controller
             ->where('users_id', Auth::user()->id)
             ->get();
 
+        // dd($carts);
+
         return view('pages.cart', [
             'carts' => $carts,
         ]);

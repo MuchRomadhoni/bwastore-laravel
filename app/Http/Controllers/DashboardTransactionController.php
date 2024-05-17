@@ -22,7 +22,7 @@ class DashboardTransactionController extends Controller
     public function indexAdmin()
     {
         $sellTransactions = TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('product', function ($product) {
-            $product->where('users_id', Auth::user()->id);
+            $product;
         })->get();
 
         return view('pages.dashboard-transactions-sell', [
