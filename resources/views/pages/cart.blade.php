@@ -89,14 +89,14 @@
                             <div class="form-group">
                                 <label for="address_one">Address 1</label>
                                 <input type="text" class="form-control" id="address_one" name="address_one"
-                                    value="Setra Duta Cemara" />
+                                    value="" required />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="address_two">Address 2</label>
                                 <input type="text" class="form-control" id="address_two" name="address_two"
-                                    value="Blok B2 No. 34" />
+                                    value="" required />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -124,7 +124,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="zip_code">Postal Code</label>
-                                <input type="text" class="form-control" id="zip_code" name="zip_code" value="40512" />
+                                <input type="text" class="form-control" id="zip_code" name="zip_code" value=""
+                                    required />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -138,7 +139,7 @@
                             <div class="form-group">
                                 <label for="phone_number">Mobile</label>
                                 <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                    value="+628 2020 11111" />
+                                    value="" required />
                             </div>
                         </div>
                     </div>

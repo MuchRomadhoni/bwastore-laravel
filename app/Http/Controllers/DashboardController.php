@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
 
         $transactions = TransactionDetail::with(['transaction.user', 'product.galleries'])->whereHas('product', function ($product) {
-            $product->where('users_id', Auth::user()->id);
+            $product;
         });
 
         $revenue = $transactions->get()->reduce(function ($carry, $item) {
@@ -28,6 +28,7 @@ class DashboardController extends Controller
         return view('pages.dashboard', [
             'transaction_count' => $transactions->count(),
             'transaction_data' => $transactions->get(),
+            'transaction' => $transactions,
             'revenue' => $revenue,
             'customer' => $customer
         ]);

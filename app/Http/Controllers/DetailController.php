@@ -23,56 +23,48 @@ class DetailController extends Controller
     {
 
         // Retrieve the selected product
-        $productId = $id; // Ambil produk_id dari request
+        $productId = $id;
         $selectedProduct = Product::with('galleries', 'user')->where('slug', $productId)
             ->firstOrFail();
 
         // Retrieve all product descriptions
         $productDescriptions = Product::pluck('description')->toArray();
-        // $productDescriptions = Product::where('id', '!=', $selectedProduct->id)->pluck('description')->toArray();
 
         // Calculate TF-IDF
         $vectorizer = new TokenCountVectorizer(new WhitespaceTokenizer());
         $vectorizer->fit($productDescriptions);
         $vectorizer->transform($productDescriptions);
+        // dd($vectorizer);
 
         $tfIdfTransformer = new TfIdfTransformer();
         $tfIdfTransformer->fit($productDescriptions);
         $tfIdfTransformer->transform($productDescriptions);
 
-        // Simpan hasil transformasi ke dalam variabel $tfIdfMatrix
-        $tfIdfMatrix = $productDescriptions; // Pastikan ini adalah hasil transformasi yang benar
+        $tfIdfMatrix = $productDescriptions;
+        // dd($tfIdfMatrix);
 
         $cosineMatrix = [];
         foreach ($tfIdfMatrix as $index => $vector) {
-            // if ($index == $selectedProduct->id) {
-            //     $cosineMatrix[$index + 1] = null;
-            //     continue;
-            // }
-            // Pastikan $tempTransformedDesc adalah array dari array
             $tempTransformedDesc = [$selectedProduct->description];
-            $vectorizer->transform($tempTransformedDesc); // Pastikan ini di-transform terlebih dahulu jika perlu
+            $vectorizer->transform($tempTransformedDesc);
             $tfIdfTransformer->transform($tempTransformedDesc);
             $cosineMatrix[$index + 1] = $this->cosineSimilarity($vector, $tempTransformedDesc[0]);
         }
 
-        // // Sort cosine similarity matrix by similarity value (descending order)
+        // Sort cosine similarity matrix by similarity value (descending order)
         arsort($cosineMatrix);
         // dd($cosineMatrix);
 
         // Get top 5 recommended products
-        $recommendedProductIds = array_keys(array_slice($cosineMatrix, 0, 10, true));
-        // $productRecommendation = Product::with('galleries', 'user')->whereIn('id', $recommendedProductIds)->get();
+        $recommendedProductIds = array_keys(array_slice($cosineMatrix, 0, 6, true));
         $productRecommendation = Product::with('galleries', 'user')->whereIn('id', $recommendedProductIds)->orderByRaw('FIELD(id, ' . implode(',', $recommendedProductIds) . ')')->get();
 
-
-        //
         $product = Product::with(['galleries', 'user'])
             ->where('slug', $id)
             ->firstOrFail();
 
         return view('pages.detail', [
-            // dd($recommendedProductIds, $productRecommendation, $cosineMatrix),
+            // dd($recommendedProductIds, $productRecommendation->toArray(), $cosineMatrix),
             'product' => $product,
             'productRecommendation' => $productRecommendation
         ]);

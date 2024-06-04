@@ -39,7 +39,8 @@
                         <a href="{{ route('transaction.index') }}"
                             class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
                         <a href="{{ route('list-users.index') }}"
-                            class="list-group-item list-group-item-action {{ request()->is('admin/list-users*') ? 'active' : '' }}">List Users</a>
+                            class="list-group-item list-group-item-action {{ request()->is('admin/list-users*') ? 'active' : '' }}">List
+                            Users</a>
                     @endif
 
                     @if (Auth::user()->roles == 'SUPERADMIN')

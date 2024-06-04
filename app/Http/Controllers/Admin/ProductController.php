@@ -73,7 +73,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::all()->where('roles', 'ADMIN');
         $categories = Category::all();
 
         return view('pages.admin.product.create', [
@@ -117,7 +117,7 @@ class ProductController extends Controller
             'item' => $item,
             'users' => $users,
             'categories' => $categories,
-    ]);
+        ]);
     }
 
     /**
