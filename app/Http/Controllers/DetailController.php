@@ -7,9 +7,9 @@ use App\Models\Product;
 use App\Models\Cart;
 
 use Illuminate\Support\Facades\Auth;
-
+use Phpml\FeatureExtraction\StopWords;
 use Phpml\Tokenization\WhitespaceTokenizer;
-use Phpml\FeatureExtraction\TokenCountVectorizer; // Tambahkan impor untuk kelas-kelas dari Php-ML
+use Phpml\FeatureExtraction\TokenCountVectorizer;
 use Phpml\FeatureExtraction\TfIdfTransformer;
 
 class DetailController extends Controller
@@ -21,37 +21,57 @@ class DetailController extends Controller
      */
     public function index(Request $request, $id)
     {
-
         // Retrieve the selected product
         $productId = $id;
-        $selectedProduct = Product::with('galleries', 'user')->where('slug', $productId)
-            ->firstOrFail();
+        $selectedProduct = Product::with('galleries', 'user')->where('slug', $productId)->firstOrFail();
 
         // Retrieve all product descriptions
         $productDescriptions = Product::pluck('description')->toArray();
+        // dd($productDescriptions);
+
+        // Text Preprocessing: Case Folding, Stop Word Removal, and Tokenization
+        $stopWords = StopWords::factory('Indonesia');
+        foreach ($productDescriptions as &$description) {
+
+            // CASE FOLDING: Lowercase the description
+            $description = strtolower($description);
+
+            // REMOVAL: Remove special characters
+            $description = preg_replace('/[^\w\s]/', '', $description);
+
+            // Tokenize the description
+            $tokens = explode(' ', $description);
+
+            // STOP WORD REMOVAL: Remove stop words
+            $tokens = array_filter($tokens, function ($token) use ($stopWords) {
+                return !$stopWords->isStopWord($token) && strlen($token) > 1;
+            });
+
+            // Reconstruct the description without stop words
+            $description = implode(' ', $tokens);
+        }
+        unset($description);
+        // dd($productDescriptions); //tokenized
 
         // Calculate TF-IDF
         $vectorizer = new TokenCountVectorizer(new WhitespaceTokenizer());
         $vectorizer->fit($productDescriptions);
         $vectorizer->transform($productDescriptions);
-        // dd($vectorizer);
 
         $tfIdfTransformer = new TfIdfTransformer();
         $tfIdfTransformer->fit($productDescriptions);
         $tfIdfTransformer->transform($productDescriptions);
+        // dd($vectorizer, $tfIdfTransformer); //idf
 
         $tfIdfMatrix = $productDescriptions;
+
         // dd($tfIdfMatrix);
 
+        $data = $tfIdfMatrix[$selectedProduct->id - 1];
         $cosineMatrix = [];
         foreach ($tfIdfMatrix as $index => $vector) {
-            $tempTransformedDesc = [$selectedProduct->description];
-            $vectorizer->transform($tempTransformedDesc);
-            $tfIdfTransformer->transform($tempTransformedDesc);
-            $cosineMatrix[$index + 1] = $this->cosineSimilarity($vector, $tempTransformedDesc[0]);
+            $cosineMatrix[$index + 1] = $this->cosineSimilarity($vector, $data);
         }
-
-        // Sort cosine similarity matrix by similarity value (descending order)
         arsort($cosineMatrix);
         // dd($cosineMatrix);
 
@@ -59,12 +79,13 @@ class DetailController extends Controller
         $recommendedProductIds = array_keys(array_slice($cosineMatrix, 0, 6, true));
         $productRecommendation = Product::with('galleries', 'user')->whereIn('id', $recommendedProductIds)->orderByRaw('FIELD(id, ' . implode(',', $recommendedProductIds) . ')')->get();
 
+        // dd($recommendedProductIds, $productRecommendation->toArray(), $cosineMatrix);
+
         $product = Product::with(['galleries', 'user'])
             ->where('slug', $id)
             ->firstOrFail();
 
         return view('pages.detail', [
-            // dd($recommendedProductIds, $productRecommendation->toArray(), $cosineMatrix),
             'product' => $product,
             'productRecommendation' => $productRecommendation
         ]);
